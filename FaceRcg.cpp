@@ -53,7 +53,7 @@ int main(int argc, const char** argv)
             break;
         }
 
-		DisplayOverlayFrame(frame);
+	DisplayOverlayFrame(frame);
 
         if (waitKey(1) == 27)        
             break; // escapes        
