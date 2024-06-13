@@ -161,5 +161,5 @@ void DisplayOverlayFrame(Mat frame)
     }
 
     //-- Show merged videoframe
-    imshow("Capture - Face detection", frame);
+    imshow("Face detection and Overlay Image", frame);
 }
