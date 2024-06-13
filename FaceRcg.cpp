@@ -21,16 +21,16 @@ int main(int argc, const char** argv)
     CommandLineParser parser(argc, argv, "{camera|0|Camera device number.}");
 
     // Load the cascades    
-    face_cascade_name = "C:\\opencv\\sources\\data\\haarcascades\\haarcascade_frontalface_alt2.xml";
-    // face_cascade_name = "haarcascade_frontalface_alt2.xml";
+    //face_cascade_name = "C:\\opencv\\sources\\data\\haarcascades\\haarcascade_frontalface_alt2.xml";
+    face_cascade_name = "haarcascade_frontalface_alt2.xml";
     if (!face_cascade.load(face_cascade_name))
     {
         cout << "--(!)Error loading face cascade\n";
         return -1;
     };
 
-    nose_cascade_name = "C:\\opencv\\sources\\data\\haarcascades\\haarcascade_mcs_nose.xml";
-    // nose_cascade_name = "haarcascade_mcs_nose.xml";
+    //nose_cascade_name = "C:\\opencv\\sources\\data\\haarcascades\\haarcascade_mcs_nose.xml";
+    nose_cascade_name = "haarcascade_mcs_nose.xml";
     if (!nose_cascade.load(nose_cascade_name))
     {
         cout << "--(!)Error loading face cascade\n";
