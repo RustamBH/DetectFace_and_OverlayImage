@@ -3,6 +3,8 @@
 #include "opencv2/imgproc.hpp"
 #include "opencv2/videoio.hpp"
 #include <iostream>
+#include <vector>
+#include <string>
 
 using namespace std;
 using namespace cv;
