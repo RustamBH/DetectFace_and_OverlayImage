@@ -150,7 +150,7 @@ void DisplayOverlayFrame(Mat frame)
             Mat overlay;
             add(roi_bg, roi_fg, overlay);
 
-            // place the joined image, saved to dst back over the original image            
+            // place overlay image over the original image            
             overlay.copyTo(roi);
 
             break;
