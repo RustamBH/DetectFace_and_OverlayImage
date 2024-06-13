@@ -94,8 +94,7 @@ void DisplayOverlayFrame(Mat frame)
     int origMustacheWidth = imgMustache.cols;
     
     for (const auto& face : faces)
-    {
-        //Point center(face.x + face.width / 2, face.y + face.height / 2);
+    {        
         rectangle(frame, face.tl(), face.br(), Scalar(0, 0, 255), 3);      
 
         Mat roi_gray = frame_gray(Rect(face.x, face.y, face.width, face.height));
