@@ -227,6 +227,8 @@ void OverlayEye(const Rect& face, const int& origEyeHeight, const int& origEyeWi
             x2 = face.width;
         if (y2 > face.height)
             y2 = face.height;
+        if (y2 < 0)
+            y2 = EyeHeight / 2;        
 
         // Re-calculate the width and height of the eye image
         EyeWidth = abs(x2 - x1);
