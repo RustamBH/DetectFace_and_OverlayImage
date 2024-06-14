@@ -10,7 +10,7 @@ using namespace cv;
 
 void DisplayOverlayFrame(const Mat& frame);
 void OverlayNose(const Rect& face, const int& origMustacheHeight, const int& origMustacheWidth, const Mat& roi_gray, const Mat& roi_color, const Mat& imgMustache, const Mat& orig_mask, const Mat& orig_mask_inv);
-void OverlayEye(const Rect& face, const int& origEyeHeight, const int& origEyeWidth, const Mat& roi_gray, const Mat& roi_color, const Mat& imgEye, const Mat& orig_mask_hat, const Mat& orig_mask_hat_inv);
+void OverlayEye(const Rect& face, const int& origEyeHeight, const int& origEyeWidth, const Mat& roi_gray, const Mat& roi_color, const Mat& imgEye, const Mat& orig_mask_eye, const Mat& orig_mask_eye_inv);
 CascadeClassifier face_cascade;
 CascadeClassifier nose_cascade;
 CascadeClassifier eye_cascade;
@@ -106,12 +106,12 @@ void DisplayOverlayFrame(const Mat& frame)
     Mat imgEye = imread("sunglasses.png", IMREAD_UNCHANGED);
 
     // Create the mask for the mustache
-    Mat orig_mask_hat = imgEye(Rect(0, 0, imgEye.cols, imgEye.rows));
-    extractChannel(orig_mask_hat, orig_mask_hat, 3);
+    Mat orig_mask_eye = imgEye(Rect(0, 0, imgEye.cols, imgEye.rows));
+    extractChannel(orig_mask_eye, orig_mask_eye, 3);
 
     // Create the inverted mask for the mustache
-    Mat orig_mask_hat_inv;
-    bitwise_not(orig_mask_hat, orig_mask_hat_inv);
+    Mat orig_mask_eye_inv;
+    bitwise_not(orig_mask_eye, orig_mask_eye_inv);
 
     // Convert mustache image to BGR
     // and save the original image size (used later when resizing the image)
@@ -130,7 +130,7 @@ void DisplayOverlayFrame(const Mat& frame)
         Mat roi_color = frame(Rect(face.x, face.y, face.width, face.height));
 
         OverlayNose(face, origMustacheHeight, origMustacheWidth, roi_gray, roi_color, imgMustache, orig_mask, orig_mask_inv);
-        OverlayEye(face, origEyeHeight, origEyeWidth, roi_gray, roi_color, imgEye, orig_mask_hat, orig_mask_hat_inv);
+        OverlayEye(face, origEyeHeight, origEyeWidth, roi_gray, roi_color, imgEye, orig_mask_eye, orig_mask_eye_inv);
     }
 
     //-- Show merged videoframe
@@ -200,7 +200,7 @@ void OverlayNose(const Rect& face, const int& origMustacheHeight, const int& ori
 }
 
 
-void OverlayEye(const Rect& face, const int& origEyeHeight, const int& origEyeWidth, const Mat& roi_gray, const Mat& roi_color, const Mat& imgEye, const Mat& orig_mask_hat, const Mat& orig_mask_hat_inv)
+void OverlayEye(const Rect& face, const int& origEyeHeight, const int& origEyeWidth, const Mat& roi_gray, const Mat& roi_color, const Mat& imgEye, const Mat& orig_mask_eye, const Mat& orig_mask_eye_inv)
 {
     // Detect an eye within the region bounded by each face (the ROI)
     vector<Rect> eye;
@@ -238,8 +238,8 @@ void OverlayEye(const Rect& face, const int& origEyeHeight, const int& origEyeWi
         // calculated above
         Mat hat, mask, mask_inv;
         resize(imgEye, hat, Size(EyeWidth, EyeHeight), 0, 0, INTER_AREA);
-        resize(orig_mask_hat, mask, Size(EyeWidth, EyeHeight), 0, 0, INTER_AREA);
-        resize(orig_mask_hat_inv, mask_inv, Size(EyeWidth, EyeHeight), 0, 0, INTER_AREA);
+        resize(orig_mask_eye, mask, Size(EyeWidth, EyeHeight), 0, 0, INTER_AREA);
+        resize(orig_mask_eye_inv, mask_inv, Size(EyeWidth, EyeHeight), 0, 0, INTER_AREA);
 
         // take ROI for hat from background equal to size of eye image
         Mat roi = roi_color(Rect(x1, y1, EyeWidth, EyeHeight));
