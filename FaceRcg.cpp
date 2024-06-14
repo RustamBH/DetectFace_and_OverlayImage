@@ -66,9 +66,8 @@ int main(int argc, const char** argv)
             cout << "--(!) No captured frame -- Break!\n";
             break;
         }
-
         DisplayOverlayFrame(frame);
-
+        
         if (waitKey(1) == 27)
             break; // escapes        
     }
