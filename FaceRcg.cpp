@@ -8,7 +8,7 @@ using namespace std;
 using namespace cv;
 
 
-void DisplayOverlayFrame(const Mat& frame);
+int DisplayOverlayFrame(const Mat& frame);
 void OverlayNose(const Rect& face, const int& origMustacheHeight, const int& origMustacheWidth, const Mat& roi_gray, const Mat& roi_color, const Mat& imgMustache, const Mat& orig_mask, const Mat& orig_mask_inv);
 void OverlayEye(const Rect& face, const int& origEyeHeight, const int& origEyeWidth, const Mat& roi_gray, const Mat& roi_color, const Mat& imgEye, const Mat& orig_mask_eye, const Mat& orig_mask_eye_inv);
 CascadeClassifier face_cascade;
@@ -66,7 +66,9 @@ int main(int argc, const char** argv)
             cout << "--(!) No captured frame -- Break!\n";
             break;
         }
-        DisplayOverlayFrame(frame);
+
+        if (DisplayOverlayFrame(frame) == -1)        
+            break;
         
         if (waitKey(1) == 27)
             break; // escapes        
@@ -74,7 +76,7 @@ int main(int argc, const char** argv)
     return 0;
 }
 
-void DisplayOverlayFrame(const Mat& frame)
+int DisplayOverlayFrame(const Mat& frame)
 {
     Mat frame_gray;
     cvtColor(frame, frame_gray, COLOR_BGR2GRAY);
@@ -86,6 +88,11 @@ void DisplayOverlayFrame(const Mat& frame)
 
     // Load image for overlay: mustache.png
     Mat imgMustache = imread("mustache.png", IMREAD_UNCHANGED);
+    if (imgMustache.empty())
+    {
+        cout << "--(!)Error opening mustache.png\n";
+        return -1;
+    }    
 
     // Create the mask for the mustache
     Mat orig_mask = imgMustache(Rect(0, 0, imgMustache.cols, imgMustache.rows));
@@ -104,6 +111,11 @@ void DisplayOverlayFrame(const Mat& frame)
 
     // Load image for overlay: sunglasses.png
     Mat imgEye = imread("sunglasses.png", IMREAD_UNCHANGED);
+    if (imgEye.empty())
+    {
+        cout << "--(!)Error opening sunglasses.png\n";
+        return -1;
+    }     
 
     // Create the mask for the mustache
     Mat orig_mask_eye = imgEye(Rect(0, 0, imgEye.cols, imgEye.rows));
@@ -135,6 +147,8 @@ void DisplayOverlayFrame(const Mat& frame)
 
     //-- Show merged videoframe
     imshow("Face detection and Overlay Image", frame);
+
+    return 0;
 }
 
 void OverlayNose(const Rect& face, const int& origMustacheHeight, const int& origMustacheWidth, const Mat& roi_gray, const Mat& roi_color, const Mat& imgMustache, const Mat& orig_mask, const Mat& orig_mask_inv)
