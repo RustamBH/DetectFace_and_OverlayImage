@@ -231,8 +231,8 @@ void OverlayEye(const Rect& face, const int& origEyeHeight, const int& origEyeWi
         // Center the eye on the bottom of the eye
         int x1 = e.x - (EyeWidth / 4);
         int x2 = e.x + e.width + (EyeWidth / 4);
-        int y1 = e.y - e.height / 2 - (EyeHeight / 2);
-        int y2 = e.y - e.height / 2 + (EyeHeight / 2);
+        int y1 = e.y - e.height / 4 - (EyeHeight / 4);
+        int y2 = e.y - e.height / 4 + (EyeHeight / 4);
 
         // Check for clipping
         if (x1 < 0) x1 = 0;
@@ -245,8 +245,8 @@ void OverlayEye(const Rect& face, const int& origEyeHeight, const int& origEyeWi
             y2 = EyeHeight;        
 
         // Re-calculate the width and height of the eye image
-        EyeWidth = abs(x2 - x1);
-        EyeHeight = abs(y2 - y1);
+        EyeWidth = x2 - x1;
+        EyeHeight = y2 - y1;
 
         // Re-size the original image and the masks to the eye sizes
         // calculated above
