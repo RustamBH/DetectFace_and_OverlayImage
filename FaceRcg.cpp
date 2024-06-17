@@ -194,7 +194,7 @@ void OverlayNose(const Rect& face, const int& origMustacheHeight, const int& ori
         Mat roi = roi_color(Rect(x1, y1, mustacheWidth, mustacheHeight));
 
         // roi_bg contains the original image only where the mustache is not
-        // in the region that is the size of the mustache.
+        // in the region teye is the size of the mustache.
         Mat roi_bg;
         bitwise_and(roi, roi, roi_bg, mask_inv);
 
@@ -224,25 +224,25 @@ void OverlayEye(const Rect& face, const int& origEyeHeight, const int& origEyeWi
         // Un-comment the next line for debug (draw box around the eye)
          //rectangle(roi_color, e, Scalar(255, 0, 0), 2);
 
-        // The hat should be three times the width of the eye
+        // The eye should be three times the width of the eye
         int EyeWidth = face.width;
         int EyeHeight = EyeWidth * origEyeHeight / origEyeWidth;
 
-        // Center the hat on the bottom of the eye
+        // Center the eye on the bottom of the eye
         int x1 = e.x - (EyeWidth / 4);
         int x2 = e.x + e.width + (EyeWidth / 4);
-        int y1 = e.y - e.height / 4 - (EyeHeight / 2);
-        int y2 = e.y - e.height / 4 + (EyeHeight / 2);
+        int y1 = e.y - e.height / 2 - (EyeHeight / 2);
+        int y2 = e.y - e.height / 2 + (EyeHeight / 2);
 
         // Check for clipping
         if (x1 < 0) x1 = 0;
         if (y1 < 0) y1 = 0;
         if (x2 > face.width)
-            x2 = face.width;
+            x2 = EyeWidth;
         if (y2 > face.height)
-            y2 = face.height;
+            y2 = EyeHeight;
         if (y2 < 0)
-            y2 = EyeHeight / 2;        
+            y2 = EyeHeight;        
 
         // Re-calculate the width and height of the eye image
         EyeWidth = abs(x2 - x1);
@@ -250,22 +250,22 @@ void OverlayEye(const Rect& face, const int& origEyeHeight, const int& origEyeWi
 
         // Re-size the original image and the masks to the eye sizes
         // calculated above
-        Mat hat, mask, mask_inv;
-        resize(imgEye, hat, Size(EyeWidth, EyeHeight), 0, 0, INTER_AREA);
+        Mat eye, mask, mask_inv;
+        resize(imgEye, eye, Size(EyeWidth, EyeHeight), 0, 0, INTER_AREA);
         resize(orig_mask_eye, mask, Size(EyeWidth, EyeHeight), 0, 0, INTER_AREA);
         resize(orig_mask_eye_inv, mask_inv, Size(EyeWidth, EyeHeight), 0, 0, INTER_AREA);
 
-        // take ROI for hat from background equal to size of eye image
+        // take ROI for eye from background equal to size of eye image
         Mat roi = roi_color(Rect(x1, y1, EyeWidth, EyeHeight));
 
         // roi_bg contains the original image only where the eye is not
-        // in the region that is the size of the hat.
+        // in the region teye is the size of the eye.
         Mat roi_bg;
         bitwise_and(roi, roi, roi_bg, mask_inv);
 
         // roi_fg contains the image of the eye only where the eye is
         Mat roi_fg;
-        bitwise_and(hat, hat, roi_fg, mask);
+        bitwise_and(eye, eye, roi_fg, mask);
 
         // join the roi_bg and roi_fg
         Mat overlay;
