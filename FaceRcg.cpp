@@ -194,7 +194,7 @@ void OverlayNose(const Rect& face, const int& origMustacheHeight, const int& ori
         Mat roi = roi_color(Rect(x1, y1, mustacheWidth, mustacheHeight));
 
         // roi_bg contains the original image only where the mustache is not
-        // in the region teye is the size of the mustache.
+        // in the region that is the size of the mustache.
         Mat roi_bg;
         bitwise_and(roi, roi, roi_bg, mask_inv);
 
@@ -259,7 +259,7 @@ void OverlayEye(const Rect& face, const int& origEyeHeight, const int& origEyeWi
         Mat roi = roi_color(Rect(x1, y1, EyeWidth, EyeHeight));
 
         // roi_bg contains the original image only where the eye is not
-        // in the region teye is the size of the eye.
+        // in the region that is the size of the eye.
         Mat roi_bg;
         bitwise_and(roi, roi, roi_bg, mask_inv);
 
